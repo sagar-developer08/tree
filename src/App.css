@@ -1,0 +1,152 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #ffffff;
+  color: #333;
+  font-family: 'Arial', sans-serif;
+}
+
+.app-title {
+  text-align: center;
+  margin: 0;
+  padding: 15px 0;
+  background-color: #ffffff;
+  color: #4a90e2;
+  font-size: 1.8rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+}
+
+.visualizer-container {
+  flex: 2;
+  position: relative;
+  overflow: hidden;
+}
+
+.error-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #ff5555;
+  font-size: 1.2rem;
+  text-align: center;
+  padding: 20px;
+}
+
+/* Control Panel Styles */
+.control-panel {
+  padding: 12px;
+  background-color: #ffffff;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  border-bottom: 1px solid #e1e8ed;
+}
+
+.control-group {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.control-group label {
+  color: #657786;
+  font-weight: 500;
+}
+
+.control-group select,
+.control-group input,
+.control-group button {
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: 1px solid #e1e8ed;
+  background-color: #ffffff;
+  color: #4a90e2;
+  font-size: 0.9rem;
+}
+
+.control-group button:hover:not(:disabled) {
+  background-color: #4a90e2;
+  color: #ffffff;
+  cursor: pointer;
+  border-color: #4a90e2;
+}
+
+.control-group button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* React Flow Custom Styles */
+.react-flow__node {
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.react-flow__node.selected,
+.react-flow__node.highlighted {
+  box-shadow: 0 0 0 2px #4a90e2;
+}
+
+.react-flow__edge-path {
+  stroke: #aab8c2;
+  stroke-width: 1.5;
+}
+
+.react-flow__controls {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e1e8ed;
+}
+
+.react-flow__controls button {
+  background-color: #ffffff;
+  color: #657786;
+  border: none;
+  border-radius: 4px;
+  margin: 2px;
+}
+
+.react-flow__controls button:hover {
+  background-color: #f5f8fa;
+  color: #4a90e2;
+}
+
+.json-node.highlighted {
+  box-shadow: 0 0 0 2px #4a90e2, 0 0 10px rgba(74, 144, 226, 0.3) !important;
+  z-index: 10;
+}
+
+/* Control Buttons in Visualizer */
+.control-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.control-buttons button {
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: 1px solid #e1e8ed;
+  background-color: #ffffff;
+  color: #4a90e2;
+  font-size: 0.9rem;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.control-buttons button:hover {
+  background-color: #4a90e2;
+  color: #ffffff;
+  border-color: #4a90e2;
+}
+
