@@ -11,7 +11,8 @@ import ReactFlow, {
   ConnectionLineType,
   ConnectionMode,
   ReactFlowInstance,
-  BackgroundVariant
+  BackgroundVariant,
+  MarkerType
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 import { toPng, toSvg } from 'html-to-image';
@@ -66,7 +67,7 @@ const JsonVisualizer: React.FC<JsonVisualizerProps> = ({
       
       if (isFirstRender.current || orientationChanged) {
         setTimeout(() => {
-          reactFlowInstance.fitView({ padding: 0.2 });
+          reactFlowInstance.fitView({ padding: 0.4, duration: 800 });
           isFirstRender.current = false;
           prevOrientation.current = orientation;
         }, 100);
@@ -143,24 +144,30 @@ const JsonVisualizer: React.FC<JsonVisualizerProps> = ({
     }
   }, []);
 
-  // Default flow options for medical knowledge graph appearance
+  // Default flow options for JSONCrack-like appearance
   const defaultEdgeOptions = {
-    type: 'smoothstep',
-    style: { stroke: '#ccc', strokeWidth: 1.2 },
-    animated: false
+    type: 'bezier',
+    style: { stroke: '#94a3b8', strokeWidth: 2 },
+    animated: false,
+    markerEnd: {
+      type: MarkerType.ArrowClosed,
+      color: '#94a3b8',
+      width: 8,
+      height: 8
+    }
   };
 
   return (
     <div className="json-visualizer" style={{ 
         width: '100%', 
         height: '100%', 
-        backgroundColor: '#f9f9f9',
+        backgroundColor: '#ffffff',
         position: 'relative'
       }}>
       <div ref={reactFlowWrapper} style={{ 
         width: '100%', 
         height: '100%', 
-        backgroundColor: '#f9f9f9',
+        backgroundColor: '#ffffff',
         borderRadius: '8px',
         overflow: 'hidden'
       }}>
@@ -172,20 +179,21 @@ const JsonVisualizer: React.FC<JsonVisualizerProps> = ({
           attributionPosition="bottom-right"
           defaultEdgeOptions={defaultEdgeOptions}
           connectionLineType={ConnectionLineType.SmoothStep}
-          minZoom={0.1}
-          maxZoom={1.5}
-          defaultViewport={{ x: 0, y: 0, zoom: 0.7 }}
+          minZoom={0.05}
+          maxZoom={2.0}
+          defaultViewport={{ x: 0, y: 0, zoom: 0.6 }}
           proOptions={{ hideAttribution: true }}
           connectionMode={ConnectionMode.Loose}
-          zoomOnScroll={false}
+          zoomOnScroll={true}
           panOnScroll={true}
           nodesDraggable={false}
+          fitViewOptions={{ padding: 0.4 }}
         >
           <Background
-            color="#e0e0e0"
-            gap={20}
+            color="#f1f5f9"
+            gap={24}
             size={1}
-            style={{ backgroundColor: '#f9f9f9' }}
+            style={{ backgroundColor: '#ffffff' }}
             variant={BackgroundVariant.Dots}
           />
           <Controls />

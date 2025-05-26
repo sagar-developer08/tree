@@ -39,21 +39,22 @@ const JsonNode: React.FC<JsonNodeProps> = ({
     return String(value);
   };
 
-  // Determine node color based on type - using colors that match the medical knowledge graph
+  // Determine node color based on type - JSONCrack-like colors
   const getNodeColor = () => {
     switch (type) {
-      case 'object': return '#4a6ee2'; // Blue for objects/containers
-      case 'array': return '#50b83c'; // Green for arrays
+      case 'object': return '#3b82f6'; // Blue for objects/containers
+      case 'array': return '#10b981'; // Green for arrays
       case 'string': 
         // Special colors for specific medical terms
-        if (label === 'medication_name') return '#9c27b0';  // Purple for medication names
-        if (label.includes('diagnosis')) return '#ff6b3d';  // Orange for diagnosis
-        if (label === 'procedure') return '#2196f3';  // Blue for procedures
-        return '#47525e';  // Dark gray for other strings
-      case 'number': return '#f49342'; // Orange for numbers
-      case 'boolean': return '#8a2be2'; // Purple for booleans
-      case 'null': return '#de4c4a'; // Red for null
-      default: return '#4a90e2'; // Default blue
+        if (label === 'medication_name') return '#8b5cf6';  // Purple for medication names
+        if (label.includes('diagnosis')) return '#f59e0b';  // Orange for diagnosis
+        if (label === 'procedure') return '#06b6d4';  // Cyan for procedures
+        return '#6b7280';  // Gray for other strings
+      case 'number': return '#f59e0b'; // Orange for numbers
+      case 'boolean': return '#8b5cf6'; // Purple for booleans
+      case 'null': return '#ef4444'; // Red for null
+      case 'properties': return '#6366f1'; // Indigo for combined properties
+      default: return '#3b82f6'; // Default blue
     }
   };
 
@@ -69,21 +70,26 @@ const JsonNode: React.FC<JsonNodeProps> = ({
   const isRoot = path === 'root';
   const isArrayItem = label.startsWith('[') && label.endsWith(']');
   
-  // Determine node style based on type and state - making it more like the medical graph
+  // Determine node style based on type and state - JSONCrack-like appearance with consistent sizing
   const getNodeStyle = () => {
     const baseStyle = {
       background: '#ffffff',
-      borderRadius: '4px',
+      borderRadius: '8px',
       padding: '12px 16px',
-      border: isHighlighted ? '2px solid #4a90e2' : '1px solid #e0e0e0',
-      minWidth: isKeyValue ? '140px' : '170px',
-      maxWidth: data.isCombinedValues ? '320px' : 'auto',
+      border: isHighlighted ? '2px solid #3b82f6' : '1px solid #d1d5db',
+      minWidth: isKeyValue ? '200px' : '220px',  // Increased for better spacing
+      maxWidth: data.isCombinedValues ? '380px' : '320px',  // Increased max widths
+      minHeight: '60px',  // Ensure minimum height for consistent spacing
       cursor: isContainer ? 'pointer' : 'default',
-      boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05)',
-      fontFamily: 'Arial, sans-serif',
+      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
       display: 'flex',
       flexDirection: 'column' as const,
-      gap: '8px'
+      gap: '8px',
+      wordWrap: 'break-word' as const,
+      overflow: 'hidden',
+      transition: 'all 0.2s ease-in-out',
+      position: 'relative' as const
     };
     
     return baseStyle;
@@ -126,7 +132,13 @@ const JsonNode: React.FC<JsonNodeProps> = ({
       <Handle 
         type="target" 
         position={Position.Left} 
-        style={{ background: '#ddd', width: '7px', height: '7px', border: '1px solid #ccc' }} 
+        style={{ 
+          background: '#e5e7eb', 
+          width: '6px', 
+          height: '6px', 
+          border: '1px solid #d1d5db',
+          opacity: 0.7
+        }} 
       />
       
       {isContainer ? (
@@ -216,15 +228,16 @@ const JsonNode: React.FC<JsonNodeProps> = ({
             color: '#333',
             whiteSpace: 'pre-wrap',
             backgroundColor: '#f8f8f8',
-            padding: '6px 10px',
+            padding: '8px 12px',
             borderRadius: '4px',
-            maxHeight: '200px',
+            maxHeight: '250px',  // Increased max height
             overflowY: 'auto',
-            fontSize: '15px',
-            lineHeight: '1.5'
+            fontSize: '14px',
+            lineHeight: '1.6',  // Better line spacing
+            border: '1px solid #e8e8e8'
           }}>
             {String(value).split('\n').map((line, i) => (
-              <div key={i} style={{ marginBottom: '4px' }}>{line}</div>
+              <div key={i} style={{ marginBottom: '6px' }}>{line}</div>
             ))}
           </div>
         </div>
@@ -257,7 +270,13 @@ const JsonNode: React.FC<JsonNodeProps> = ({
       <Handle 
         type="source" 
         position={Position.Right} 
-        style={{ background: '#ddd', width: '7px', height: '7px', border: '1px solid #ccc' }} 
+        style={{ 
+          background: '#e5e7eb', 
+          width: '6px', 
+          height: '6px', 
+          border: '1px solid #d1d5db',
+          opacity: 0.7
+        }} 
       />
     </div>
   );
