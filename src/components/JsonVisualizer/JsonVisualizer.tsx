@@ -67,7 +67,7 @@ const JsonVisualizer: React.FC<JsonVisualizerProps> = ({
       
       if (isFirstRender.current || orientationChanged) {
         setTimeout(() => {
-          reactFlowInstance.fitView({ padding: 0.4, duration: 800 });
+          reactFlowInstance.fitView({ padding: 0.2, duration: 800 });
           isFirstRender.current = false;
           prevOrientation.current = orientation;
         }, 100);
@@ -181,13 +181,13 @@ const JsonVisualizer: React.FC<JsonVisualizerProps> = ({
           connectionLineType={ConnectionLineType.SmoothStep}
           minZoom={0.05}
           maxZoom={2.0}
-          defaultViewport={{ x: 0, y: 0, zoom: 0.6 }}
+          defaultViewport={{ x: 0, y: 0, zoom: 0.4 }}
           proOptions={{ hideAttribution: true }}
           connectionMode={ConnectionMode.Loose}
           zoomOnScroll={true}
           panOnScroll={true}
           nodesDraggable={false}
-          fitViewOptions={{ padding: 0.4 }}
+          fitViewOptions={{ padding: 0.2 }}
         >
           <Background
             color="#f1f5f9"

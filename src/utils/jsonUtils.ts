@@ -40,12 +40,12 @@ export const transformJsonToFlow = (
   // Generate a unique ID for this transformation to avoid node ID collisions
   const transformId = generateId().substring(0, 4);
   
-  // Layout constants - optimized for horizontal tree layout with proper spacing
-  const LEVEL_SPACING_X = 500;  // Horizontal spacing between levels (increased more)
-  const MIN_NODE_SPACING_Y = 120;   // Minimum vertical spacing between sibling nodes (increased)
-  const NODE_HEIGHT_ESTIMATE = 140; // Estimated node height for spacing calculations (increased)
+  // Layout constants - optimized for horizontal spread layout
+  const LEVEL_SPACING_X = 350;  // Horizontal spacing between levels (reduced for more spread)
+  const MIN_NODE_SPACING_Y = 100;   // Minimum vertical spacing between sibling nodes (increased to prevent overlap)
+  const NODE_HEIGHT_ESTIMATE = 120; // Estimated node height for spacing calculations (increased)
   const START_X = 50;           // Starting X position
-  const START_Y = 400;          // Starting Y position (center of viewport)
+  const START_Y = 300;          // Starting Y position (center of viewport)
   
   // Track node positions by level
   const levelNodes: Map<number, Node<NodeData>[]> = new Map();
@@ -100,7 +100,7 @@ export const transformJsonToFlow = (
        
        // Add extra spacing between children to prevent overlap
        const extraSpacing = Math.max(0, children.length - 1) * MIN_NODE_SPACING_Y;
-       const additionalBuffer = children.length > 1 ? children.length * 30 : 0; // Extra buffer for multiple children
+       const additionalBuffer = children.length > 1 ? children.length * 20 : 0; // Increased buffer to prevent overlap
        return Math.max(NODE_HEIGHT_ESTIMATE, totalHeight + extraSpacing + additionalBuffer);
      };
     
@@ -117,7 +117,7 @@ export const transformJsonToFlow = (
        
        // Add minimum spacing between children with extra buffer
        const baseSpacing = Math.max(0, children.length - 1) * MIN_NODE_SPACING_Y;
-       const extraBuffer = children.length > 2 ? children.length * 20 : 0; // Extra spacing for many children
+       const extraBuffer = children.length > 2 ? children.length * 15 : 0; // Increased extra spacing to prevent overlap
        const totalSpacing = baseSpacing + extraBuffer;
        const totalRequiredHeight = totalChildHeight + totalSpacing;
        
@@ -136,7 +136,7 @@ export const transformJsonToFlow = (
          );
          
          // Move to next position with proper spacing
-         const dynamicSpacing = MIN_NODE_SPACING_Y + (children.length > 3 ? 20 : 0); // Extra spacing for crowded areas
+         const dynamicSpacing = MIN_NODE_SPACING_Y + (children.length > 3 ? 15 : 0); // Increased extra spacing to prevent overlap
          currentY += childHeight + dynamicSpacing;
        });
      };
@@ -175,12 +175,12 @@ export const transformJsonToFlow = (
            const currentNode = levelNodes[i];
            const prevNode = levelNodes[i - 1];
            
-           // Use a larger minimum distance to prevent overlaps
-           const minDistance = NODE_HEIGHT_ESTIMATE + MIN_NODE_SPACING_Y + 20; // Extra padding
-           const actualDistance = currentNode.y - prevNode.y;
-           
-           if (actualDistance < minDistance) {
-             const adjustment = minDistance - actualDistance + 10; // Extra buffer
+                       // Use a minimum distance to prevent overlaps
+            const minDistance = NODE_HEIGHT_ESTIMATE + MIN_NODE_SPACING_Y + 15; // Increased padding to prevent overlap
+            const actualDistance = currentNode.y - prevNode.y;
+            
+            if (actualDistance < minDistance) {
+              const adjustment = minDistance - actualDistance + 10; // Increased buffer
              currentNode.y += adjustment;
              nodePositions.set(currentNode.id, { x: currentNode.x, y: currentNode.y });
              
@@ -193,11 +193,11 @@ export const transformJsonToFlow = (
          }
        }
        
-       // Final pass: ensure minimum spacing between all nodes
-       for (let i = 1; i < levelNodes.length; i++) {
-         const currentNode = levelNodes[i];
-         const prevNode = levelNodes[i - 1];
-         const minGap = 150; // Minimum gap between node centers
+               // Final pass: ensure minimum spacing between all nodes
+        for (let i = 1; i < levelNodes.length; i++) {
+          const currentNode = levelNodes[i];
+          const prevNode = levelNodes[i - 1];
+          const minGap = 130; // Increased minimum gap between node centers to prevent overlap
          
          if (currentNode.y - prevNode.y < minGap) {
            const adjustment = minGap - (currentNode.y - prevNode.y);
